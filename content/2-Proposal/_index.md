@@ -1,11 +1,10 @@
 ---
 title: "Proposal"
-date: 2024-01-01
+date: 2026-07-01
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-In this section, you need to summarize the contents of the workshop that you **plan** to conduct.
 
 # IoT Weather Platform for Lab Research
 ## A Unified AWS Serverless Solution for Real-Time Weather Monitoring
@@ -69,23 +68,35 @@ This project has two parts—setting up weather edge stations and building the w
 - Post-Launch: Up to 1 year for research.
 
 ### 6. Budget Estimation
-You can find the budget estimation on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01).  
-Or you can download the [Budget Estimation File](../attachments/budget_estimation.pdf).
-
 ### Infrastructure Costs
 - AWS Services:
-    - AWS Lambda: $0.00/month (1,000 requests, 512 MB storage).
-    - S3 Standard: $0.15/month (6 GB, 2,100 requests, 1 GB scanned).
-    - Data Transfer: $0.02/month (1 GB inbound, 1 GB outbound).
-    - AWS Amplify: $0.35/month (256 MB, 500 ms requests).
-    - Amazon API Gateway: $0.01/month (2,000 requests).
-    - AWS Glue ETL Jobs: $0.02/month (2 DPUs).
-    - AWS Glue Crawlers: $0.07/month (1 crawler).
-    - MQTT (IoT Core): $0.08/month (5 devices, 45,000 messages).
+    - Amazon ECS Fargate (Frontend): $8.50/month (2 tasks, 0.25 vCPU, 512 MB, 24/7).
+    - Amazon ECS Fargate (Backend): $20.73/month (2 tasks, 0.5 vCPU, 1 GB, 24/7).
+    - Public IPv4 (ECS + ALB + NAT): $29.20/month (8 public IPs × $0.005/hr).
+    - NAT Gateway (AZ-A): $43.37/month (730 hrs, ~5 GB data processed).
+    - NAT Gateway (AZ-B): $43.37/month (730 hrs, ~5 GB data processed).
+    - ALB Internet-facing: $24.24/month (730 hrs, ~1 LCU/hr).
+    - ALB Internal: $19.40/month (730 hrs, minimal LCU).
+    - Data Transfer Out: $0.45/month (~5 GB outbound to Internet).
+    - Cross-AZ Data Transfer: $0.10/month (~10 GB Frontend → Backend).
+    - RDS MySQL Multi-AZ (db.t3.micro): $34.84/month (Primary + Standby, 24/7).
+    - RDS Storage: $5.52/month (20 GB gp2 × 2 AZ).
+    - RDS Proxy: $21.90/month (2 vCPU minimum, 730 hrs).
+    - Secrets Manager: $0.41/month (1 secret, API calls).
+    - RDS Snapshot Export to S3: $0.24/month (~20 GB exported).
+    - CodePipeline: $1.00/month (1 active pipeline).
+    - CodeBuild: $1.25/month (~50 builds × 5 mins, general1.small).
+    - Amazon ECR (Frontend + Backend): $0.58/month (4 GB storage, ~100 pulls).
+    - S3 Artifact Bucket: $0.04/month (1 GB, 1,000 requests).
+    - S3 Backup Bucket: $0.58/month (20 GB, lifecycle to Glacier after 30 days).
+    - CloudWatch Logs: $3.95/month (5 GB ingestion, container + ALB + VPC Flow Logs).
+    - CloudWatch Metrics & Alarms: $6.60/month (20 metrics, 8 alarms).
+    - CloudWatch Dashboard: $3.00/month (1 dashboard, 9 widgets).
+    - AWS Backup: $1.95/month (daily + weekly plan, ~30 GB vault).
+    - Amazon SNS: $0.00/month (<1,000 email notifications, free tier).
+    - Amazon EventBridge: $0.00/month (<1M events/month, free tier).
 
-Total: $0.7/month, $8.40/12 months
-
-- Hardware: $265 one-time (Raspberry Pi 5 and sensors).
+Total: $271.22/month
 
 ### 7. Risk Assessment
 #### Risk Matrix
