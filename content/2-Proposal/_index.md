@@ -1,122 +1,108 @@
 ---
 title: "Proposal"
-date: 2026-07-01
+date: 2024-01-01
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# IoT Weather Platform for Lab Research
-## A Unified AWS Serverless Solution for Real-Time Weather Monitoring
+# GlobalMart Cloud Computing Infrastructure
+## Modern Production-Ready DevOps/Platform Engineering Infrastructure Solution: CI/CD Automation via GitHub Actions, Multi-Segment Isolated Network & Multi-Layer CloudWatch Monitoring
 
-### 1. Executive Summary
-The IoT Weather Platform is designed for the ITea Lab team in Ho Chi Minh City to enhance weather data collection and analysis. It supports up to 5 weather stations, with potential scalability to 10-15, utilizing Raspberry Pi edge devices with ESP32 sensors to transmit data via MQTT. The platform leverages AWS Serverless services to deliver real-time monitoring, predictive analytics, and cost efficiency, with access restricted to 5 lab members via Amazon Cognito.
+### 1. Project Summary
+GlobalMart is a project entirely focused on researching, designing, and deploying a modern production-standard cloud infrastructure on the AWS platform. The project focuses on optimizing software operations lifecycle (DevOps) by eliminating traditional cumbersome AWS pipeline management services, replacing them with **GitHub Actions** combined with **IAM OIDC Role** secure authentication. The system applies a strict network segmentation model (VPC Public/Private Subnets), centralized API routing via **Amazon API Gateway / VPC Link**, configures advanced system logging (Container Logs), and sets up automatic secure backup scenarios to S3.
 
 ### 2. Problem Statement
-### What’s the Problem?
-Current weather stations require manual data collection, becoming unmanageable with multiple units. There is no centralized system for real-time data or analytics, and third-party platforms are costly and overly complex.
+### What's the Problem?
+In real software projects, setting up loose network infrastructure, exposing databases to the internet, or deploying code manually is always the leading cause of data leaks and system downtime risks. Storing AWS Access Key/Secret Key directly on external CI/CD platforms carries the risk of exposing privileged accounts. Additionally, the lack of a centralized monitoring system paralyzes the engineering team's incident response capability when application containers encounter silent errors or crash suddenly.
 
 ### The Solution
-The platform uses AWS IoT Core to ingest MQTT data, AWS Lambda and API Gateway for processing, Amazon S3 for storage (including a data lake), and AWS Glue Crawlers and ETL jobs to extract, transform, and load data from the S3 data lake to another S3 bucket for analysis. AWS Amplify with Next.js provides the web interface, and Amazon Cognito ensures secure access. Similar to Thingsboard and CoreIoT, users can register new devices and manage connections, though this platform operates on a smaller scale and is designed for private use. Key features include real-time dashboards, trend analysis, and low operational costs.
+The GlobalMart project sets up a standardized VPC network infrastructure consisting of Public Subnet A (hosting Internet ALB, NAT Gateway) and a system of Private Subnets to completely isolate the application execution environment (ECS Fargate) and data storage (RDS). The continuous integration and deployment (CI/CD) pipeline is built completely automatically via GitHub Actions, applying the **IAM OIDC Identity Provider** mechanism to grant secure permissions without using hardcoded keys. All incoming traffic to the system is centrally controlled via **API Gateway**, passing through the internal network thanks to **VPC Link / ALB Internal**. The system is monitored in multiple layers via a centralized CloudWatch Dashboard combined with automatic alerts through Amazon SNS sent directly to administrators' Email/SMS.
 
 ### Benefits and Return on Investment
-The solution establishes a foundational resource for lab members to develop a larger IoT platform, serving as a study resource, and provides a data foundation for AI enthusiasts for model training or analysis. It reduces manual reporting for each station via a centralized platform, simplifying management and maintenance, and improves data reliability. Monthly costs are $0.66 USD per the AWS Pricing Calculator, with a 12-month total of $7.92 USD. All IoT equipment costs are covered by the existing weather station setup, eliminating additional development expenses. The break-even period of 6-12 months is achieved through significant time savings from reduced manual work.
+The project brings significant practical value by streamlining the CI/CD engine, reducing operational costs (no need to pay for AWS CodeBuild/CodePipeline). Applying the Scan on push mechanism at ECR helps control malicious container code early. The system reaches full automation state: Engineers only need to perform `git push` to GitHub, and the system will automatically build images, update the new Task Definition Revision, and trigger **ECS Rolling Update** to update the website without service interruption (Zero-downtime).
 
 ### 3. Solution Architecture
-The platform employs a serverless AWS architecture to manage data from 5 Raspberry Pi-based stations, scalable to 15. Data is ingested via AWS IoT Core, stored in an S3 data lake, and processed by AWS Glue Crawlers and ETL jobs to transform and load it into another S3 bucket for analysis. Lambda and API Gateway handle additional processing, while Amplify with Next.js hosts the dashboard, secured by Cognito. The architecture is detailed below:
+The project architecture is set up synchronously on the AWS Fargate platform (Serverless Container) and a multi-layer security network model via Security Groups matrix. The infrastructure diagram is detailed below:
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
-
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+![GlobalMart Deployment Architecture](/images/2-Proposal/globalmart.png)
 
 ### AWS Services Used
-- **AWS IoT Core**: Ingests MQTT data from 5 stations, scalable to 15.
-- **AWS Lambda**: Processes data and triggers Glue jobs (two functions).
-- **Amazon API Gateway**: Facilitates web app communication.
-- **Amazon S3**: Stores raw data in a data lake and processed outputs (two buckets).
-- **AWS Glue**: Crawlers catalog data, and ETL jobs transform and load it.
-- **AWS Amplify**: Hosts the Next.js web interface.
-- **Amazon Cognito**: Secures access for lab users.
+- **AWS VPC & IAM OIDC**: Set up core network including Public Subnet (Internet routing) and isolated Private Subnets, combined with configuring Identity Provider to allow GitHub Actions to establish a secure trusted connection.
+- **GitHub Actions (Build & Update Service)**: Acts as the core CI/CD tool, completely replacing AWS CodePipeline, CodeBuild, and CodeDeploy to automate the entire workflow.
+- **Amazon ECR & S3 Artifact Bucket**: Docker Image repository integrated with security scanning (Scan on push) and storing system build state.
+- **Amazon ECS Cluster & AWS Fargate**: Serverless container orchestrator managing two independent services `globalmart-frontend-task` and `globalmart-backend-task`.
+- **AWS Application Load Balancer (ALB)**: System of 2 independent ALBs (ALB-Internet-Facing receiving public traffic to Frontend; ALB Internal receiving internal traffic routing to Backend).
+- **Amazon API Gateway & VPC Link**: Centralized API control gateway, combined with VPC Link to securely forward traffic from Public environment to Internal Load Balancer located in Private zone.
+- **Amazon RDS Single AZ**: MySQL/PostgreSQL database system completely hidden in Private Subnet B, absolutely blocking all direct access attempts from outside the Internet.
+- **Amazon CloudWatch & Amazon SNS**: Pair collecting centralized multi-layer logs/metrics (ECS, ALB, RDS) and delivering automatic alerts via Email/SMS when the system is overloaded.
 
 ### Component Design
-- **Edge Devices**: Raspberry Pi collects and filters sensor data, sending it to IoT Core.
-- **Data Ingestion**: AWS IoT Core receives MQTT messages from the edge devices.
-- **Data Storage**: Raw data is stored in an S3 data lake; processed data is stored in another S3 bucket.
-- **Data Processing**: AWS Glue Crawlers catalog the data, and ETL jobs transform it for analysis.
-- **Web Interface**: AWS Amplify hosts a Next.js app for real-time dashboards and analytics.
-- **User Management**: Amazon Cognito manages user access, allowing up to 5 active accounts.
+- **Multi-Layer Network & Security Infrastructure**: The system includes 3 separate Security Groups to isolate data flow. Frontend and Backend applications are placed in Private Subnet A network zone to hide origin IP, Database is located separately in Private Subnet B.
+- **CI/CD Automation Pipeline via GitHub Actions**: Configure workflow `.yml` file handling sequentially: Checkout code -> Assume AWS Credentials via OIDC Role -> Build and tag Docker Image with Git Commit SHA -> Push to ECR -> Automatically generate new Task Definition JSON file -> Trigger `update-service` command on ECS.
+- **Data Connection & Operations**: User calls API via API Gateway -> Passes through VPC Link -> To ALB Internal -> To ECS Backend -> Directly queries Single AZ RDS Database via secure internal network connection.
+- **Centralized Monitoring & Logging**: CloudWatch Logs collects all command-line log data (Console logs) from Frontend/Backend containers, routing traces at ALB, and RDS Performance state to display visually on a centralized CloudWatch Dashboard.
 
 ### 4. Technical Implementation
 **Implementation Phases**
-This project has two parts—setting up weather edge stations and building the weather platform—each following 4 phases:
-- Build Theory and Draw Architecture: Research Raspberry Pi setup with ESP32 sensors and design the AWS serverless architecture (1 month pre-internship)
-- Calculate Price and Check Practicality: Use AWS Pricing Calculator to estimate costs and adjust if needed (Month 1).
-- Fix Architecture for Cost or Solution Fit: Tweak the design (e.g., optimize Lambda with Next.js) to stay cost-effective and usable (Month 2).
-- Develop, Test, and Deploy: Code the Raspberry Pi setup, AWS services with CDK/SDK, and Next.js app, then test and release to production (Months 2-3).
+The project execution process is planned in detail over a 1-month period, entirely focusing on configuration and system infrastructure integration steps:
+- **Week 1 - Core Network & IAM OIDC Role Setup**: Initialize VPC core network including Public Subnet system (hosting ALB Internet-Facing, NAT Gateway) and isolated Private Subnets. Configure Identity Provider (IdP) on IAM attached to GitHub's OIDC Provider, create IAM Role allowing GitHub Actions account to interact with ECR and ECS without hardcoded Access Key.
+- **Week 2 - Containerization & GitHub Actions Workflow Build**: Initialize Frontend and Backend ECR repositories with scan on push enabled. Write workflow configuration file `.github/workflows/deploy.yml` on GitHub to automate the workflow: use docker build command, tag image with `${{ github.sha }}` identifier, and perform push to Amazon ECR.
+- **Week 3 - Initialize Container Runtime, API Gateway & Routing**: Initialize ECS Fargate Cluster along with detailed Task Definitions system. Set up ALB Internet-Facing (pointing to Frontend Target Group) and ALB Internal (pointing to Backend Target Group). Configure API Gateway combined with VPC Link directly connecting to ALB Internal to open a secure API path for the application.
+- **Week 4 - Data Layer, Monitoring System & SNS Alerts**: Initialize Single AZ RDS configuration located in Private Subnet B, pass secure connection environment variables from Backend. Configure CloudWatch Logs logging system, centralized Dashboard visually displaying Container CPU/Memory Utilization metrics and RDS performance. Set up 6 CloudWatch Alarms sending automatic alerts via Amazon SNS to phone/email when system overload incidents occur.
 
 **Technical Requirements**
-- Weather Edge Station: Sensors (temperature, humidity, rainfall, wind speed), a microcontroller (ESP32), and a Raspberry Pi as the edge device. Raspberry Pi runs Raspbian, handles Docker for filtering, and sends 1 MB/day per station via MQTT over Wi-Fi.
-- Weather Platform: Practical knowledge of AWS Amplify (hosting Next.js), Lambda (minimal use due to Next.js), AWS Glue (ETL), S3 (two buckets), IoT Core (gateway and rules), and Cognito (5 users). Use AWS CDK/SDK to code interactions (e.g., IoT Core rules to S3). Next.js reduces Lambda workload for the fullstack web app.
+- **GitHub Actions Automation Skills**: Understand how to write YAML workflows, manage secure GitHub Secrets, declare environment variables, and use AWS CLI combined with Python to cook Task Definition (`register-task-definition`).
+- **Advanced Networking & Routing Thinking**: Understand API Gateway routing mechanism, VPC Link, how to configure cross-Security Group permissions (allowing ALB to access Container, allowing Backend to connect to correct Database RDS Port).
 
 ### 5. Timeline & Milestones
 **Project Timeline**
-- Pre-Internship (Month 0): 1 month for planning and old station review.
-- Internship (Months 1-3): 3 months.
-    - Month 1: Study AWS and upgrade hardware.
-    - Month 2: Design and adjust architecture.
-    - Month 3: Implement, test, and launch.
-- Post-Launch: Up to 1 year for research.
+The project execution roadmap is broken down and closely follows real infrastructure deployment progress within 1 month:
+- Milestone 1 (End of Week 1): Complete setting up the entire secure VPC network core, smoothly configure IAM OIDC Role secure connection between GitHub and AWS.
+- Milestone 2 (End of Week 2): Complete GitHub Actions workflow configuration, successfully package and push Frontend/Backend Docker Image versions to Amazon ECR.
+- Milestone 3 (End of Week 3): Successfully deploy ECS Fargate Cluster, finish configuring API Gateway system, VPC Link, and multi-layer ALB load balancers, ensuring smooth web routing.
+- Milestone 4 (End of Week 4): Bring Single AZ RDS data layer into operation, activate CloudWatch Dashboard multi-layer monitoring system and automatic alerting system via SNS. Successfully execute scenario checking actual email alert activation and project acceptance.
 
 ### 6. Budget Estimation
 ### Infrastructure Costs
 - AWS Services:
-    - Amazon ECS Fargate (Frontend): $8.50/month (2 tasks, 0.25 vCPU, 512 MB, 24/7).
-    - Amazon ECS Fargate (Backend): $20.73/month (2 tasks, 0.5 vCPU, 1 GB, 24/7).
-    - Public IPv4 (ECS + ALB + NAT): $29.20/month (8 public IPs × $0.005/hr).
-    - NAT Gateway (AZ-A): $43.37/month (730 hrs, ~5 GB data processed).
-    - NAT Gateway (AZ-B): $43.37/month (730 hrs, ~5 GB data processed).
-    - ALB Internet-facing: $24.24/month (730 hrs, ~1 LCU/hr).
-    - ALB Internal: $19.40/month (730 hrs, minimal LCU).
+    - Amazon ECS Fargate (Frontend): $4.25/month (1 task, 0.25 vCPU, 512 MB, 24/7).
+    - Amazon ECS Fargate (Backend): $10.36/month (1 task, 0.5 vCPU, 1 GB, 24/7).
+    - Public IPv4 (ALB + NAT): $7.30/month (2 public IPs × $0.005/hour).
+    - NAT Gateway: $43.37/month (730 hours, ~5 GB data processed).
+    - ALB Internet-facing: $24.24/month (730 hours, ~1 LCU/hour).
+    - ALB Internal: $19.40/month (730 hours, minimal LCU).
+    - Amazon API Gateway (HTTP API): $1.00/month (~1 million requests/month).
     - Data Transfer Out: $0.45/month (~5 GB outbound to Internet).
-    - Cross-AZ Data Transfer: $0.10/month (~10 GB Frontend → Backend).
-    - RDS MySQL Multi-AZ (db.t3.micro): $34.84/month (Primary + Standby, 24/7).
-    - RDS Storage: $5.52/month (20 GB gp2 × 2 AZ).
-    - RDS Proxy: $21.90/month (2 vCPU minimum, 730 hrs).
-    - Secrets Manager: $0.41/month (1 secret, API calls).
-    - RDS Snapshot Export to S3: $0.24/month (~20 GB exported).
-    - CodePipeline: $1.00/month (1 active pipeline).
-    - CodeBuild: $1.25/month (~50 builds × 5 mins, general1.small).
+    - Amazon RDS Single AZ (db.t3.micro): $17.42/month (24/7 Dev/Test environment).
+    - RDS Storage: $2.76/month (20 GB gp2).
     - Amazon ECR (Frontend + Backend): $0.58/month (4 GB storage, ~100 pulls).
-    - S3 Artifact Bucket: $0.04/month (1 GB, 1,000 requests).
-    - S3 Backup Bucket: $0.58/month (20 GB, lifecycle to Glacier after 30 days).
-    - CloudWatch Logs: $3.95/month (5 GB ingestion, container + ALB + VPC Flow Logs).
-    - CloudWatch Metrics & Alarms: $6.60/month (20 metrics, 8 alarms).
-    - CloudWatch Dashboard: $3.00/month (1 dashboard, 9 widgets).
-    - AWS Backup: $1.95/month (daily + weekly plan, ~30 GB vault).
-    - Amazon SNS: $0.00/month (<1,000 email notifications, free tier).
-    - Amazon EventBridge: $0.00/month (<1M events/month, free tier).
+    - Backup Bucket (S3): $0.58/month (20 GB snapshot/export storage).
+    - CloudWatch Logs: $3.95/month (5 GB ingestion, container + ALB logs).
+    - CloudWatch Metrics & Alarms: $4.95/month (15 metrics, 6 alarms).
+    - CloudWatch Dashboard: $3.00/month (1 dashboard, 5 main widgets).
+    - Amazon SNS: $0.00/month (under 1,000 email notifications, in AWS Free Tier).
+    - GitHub Actions Runner: $0.00/month (Using GitHub's 2,000 free minutes/month for private repository).
 
-Total: $271.22/month
+Total: **$187.01 / month**
 
 ### 7. Risk Assessment
 #### Risk Matrix
-- Network Outages: Medium impact, medium probability.
-- Sensor Failures: High impact, low probability.
-- Cost Overruns: Medium impact, low probability.
+- Character escape errors or incorrect JSON structure when automatically creating Task Definition via CLI: Medium impact, medium probability.
+- Data leak risk due to accidentally opening Database port to Internet: High impact, low probability.
+- Deployment flow stuck or hanging due to Target Group Health Check misconfigured success codes: Medium impact, medium probability.
 
 #### Mitigation Strategies
-- Network: Local storage on Raspberry Pi with Docker.
-- Sensors: Regular checks and spares.
-- Cost: AWS budget alerts and optimization.
+- Task Definition creation errors: Thoroughly handled by exporting JSON configuration string from Python script to temporary `*.json` file before feeding into AWS CLI `--cli-input-json` command in workflow.
+- Database security: RDS is placed completely in Private Subnet B without internet gateway, while RDS Security Group only opens a single port allowing internal IP from ECS Backend Task Security Group.
+- Health Check stuck errors: Configure success codes to relax to `200-499` in Target Group (`tg-backend` and `tg-frontend`) to accept any initial startup responses from Spring Boot/Node.js.
 
 #### Contingency Plans
-- Revert to manual methods if AWS fails.
-- Use CloudFormation for cost-related rollbacks.
+- Trigger manual RDS Snapshot schedule before each major code push, ensuring data rollback capability to the nearest stable state within 5 minutes if new code breaks DB structure.
+- Set up automatic backup export scenario (Backup Export) to an independent S3 Backup Bucket with lifecycle storage feature enabled to optimize long-term storage costs.
 
 ### 8. Expected Outcomes
-#### Technical Improvements: 
-Real-time data and analytics replace manual processes.  
-Scalable to 10-15 stations.
+#### Technical Improvements:
+Successfully build an automated, streamlined, and modern security-standard DevOps infrastructure: master IAM OIDC Role authentication flow without keys, securely control traffic via API Gateway/ALB, and successfully set up CloudWatch Dashboard monitoring system combined with proactive Email alerts when container overload incidents occur.
 #### Long-term Value
-1-year data foundation for AI research.  
-Reusable for future projects.
+Bring a standardized architecture sample document (Blueprint) about building CI/CD pipeline directly integrating GitHub Actions and AWS ECS Fargate; create a solid, easy-to-maintain, cost-optimized infrastructure foundation for enterprises to be ready to deploy full-stack Microservices applications later.

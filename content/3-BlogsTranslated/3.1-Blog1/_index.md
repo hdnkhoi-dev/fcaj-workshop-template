@@ -120,5 +120,5 @@ Samsung's case study shows that:
 
 Original post: https://aws.amazon.com/vi/blogs/architecture/how-samsung-achieved-real-time-pricing-with-aws-lambda-response-streaming/
 
-![Kiến trúc cũ của Samsung gây ra vấn đề trễ đồng bộ](../../../static/images/3-Blog/1.jpg)
-![Kiến trúc mới sử dụng AWS Lambda Response Streaming của Samsung](../../../static/images/3-Blog/2.jpg)
+![Kiến trúc cũ của Samsung gây ra vấn đề trễ đồng bộ](/images/3-Blog/1.jpg)
+![Kiến trúc mới sử dụng AWS Lambda Response Streaming của Samsung](/images/3-Blog/2.jpg)

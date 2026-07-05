@@ -1,122 +1,134 @@
 ---
 title: "Blog 2"
-date: 2024-01-01
-weight: 1
+date: 2026-06-28
+weight: 2
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
-# Getting Started with Healthcare Data Lakes: Using Microservices
+# Building Multi-Department RAG with Amazon Bedrock Knowledge Bases and Fine-Grained Access Control
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+I just read a really interesting article on the AWS Blog about building an internal enterprise GenAI system, where multiple departments share a single Knowledge Base while still ensuring each person only sees the data they're authorized to access.
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+This is a very practical problem when deploying an AI Assistant in an enterprise.
 
----
+## The Problem
 
-## Architecture Guidance
+Suppose a company has multiple departments:
+- Finance
+- Engineering
+- Executive
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
+Each department stores its own documents:
+- Financial reports
+- System architecture documents
+- Incident Reports
+- Business strategies
+- M&A Planning
 
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
+However, when deploying an internal AI Chatbot using RAG (Retrieval-Augmented Generation), a major problem arises:
+**How can AI answer with correct information without leaking data between departments?**
 
-**The solution architecture is now as follows:**
-
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
-
----
-
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
-
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+For example:
+- Engineering employees cannot see financial reports.
+- Finance cannot see M&A documents.
+- Executive can see more types of documents.
 
 ---
 
-## Technology Choices and Communication Scope
+## Ingestion Pipeline Architecture
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+To get documents into the Knowledge Base, AWS proposes a quite interesting serverless pipeline.
 
----
+Workflow:
+1. Documents are uploaded to Amazon S3.
+2. S3 generates an event to Amazon EventBridge.
+3. EventBridge sends a message to Amazon SQS.
+4. AWS Lambda processes metadata.
+5. Metadata is attached to the document.
+6. EventBridge Schedule triggers Lambda Ingest periodically.
+7. Lambda ingests data into Amazon Bedrock Knowledge Bases.
+8. Embeddings are stored in Amazon S3 Vectors.
 
-## The Pub/Sub Hub
+Some AWS services in this architecture:
+- Amazon S3
+- Amazon EventBridge
+- Amazon SQS
+- AWS Lambda
+- Amazon Bedrock Knowledge Bases
+- Amazon S3 Vectors
+- Amazon CloudWatch
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
-
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
-
----
-
-## Core Microservice
-
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
+What I like about this architecture is that the entire ingestion process is designed in an event-driven and serverless manner, helping reduce operational costs.
 
 ---
 
-## Front Door Microservice
+## Query Architecture
 
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
+After data is indexed into the Knowledge Base, users will interact via a web application.
 
----
-
-## Staging ER7 Microservice
-
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
+Processing flow:
+1. User accesses the application.
+2. Amazon CloudFront delivers content.
+3. Amazon Cognito authenticates the user.
+4. AWS WAF protects the application from common attacks.
+5. Amazon API Gateway receives the request.
+6. Lambda Authorizer checks access permissions.
+7. Amazon Verified Permissions evaluates access policies.
+8. AWS Lambda Middleware handles business logic.
+9. Amazon Bedrock Knowledge Bases performs data queries.
+10. Results are returned to the user.
 
 ---
 
-## New Features in the Solution
+## Most Notable Point: Fine-Grained Access Control
 
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+The best thing I see in this architecture is the combination of:
+- Amazon Cognito
+- Lambda Authorizer
+- Amazon Verified Permissions
+
+to create a detailed permission mechanism.
+
+Instead of just checking:
+- Is the user logged in?
+
+the system also checks:
+- Which department does the user belong to?
+- Are they allowed to view this document?
+- Are they allowed to query this data?
+
+This helps deploy RAG much more safely in an enterprise environment.
+
+---
+
+## What I Learned
+
+Through this article, I see that when building a GenAI system for an enterprise, the hardest part isn't LLM or Prompt Engineering.
+
+The real challenge lies in:
+- Data management
+- Metadata
+- Access permission control
+- Internal information security
+
+AWS is solving this problem by combining:
+- Amazon Bedrock Knowledge Bases
+- Amazon S3 Vectors
+- Amazon Cognito
+- Amazon Verified Permissions
+
+to create a RAG platform that's both scalable and secure.
+
+---
+
+## Conclusion
+
+If you're learning about GenAI on AWS, this is a very worthwhile case study because it doesn't just talk about AI, it also shows how to build a complete production-ready RAG system.
+
+Especially, I see the combination between Amazon Bedrock Knowledge Bases and Amazon Verified Permissions as a very suitable approach for enterprises with many departments and strict data permission requirements.
+
+Original post: https://aws.amazon.com/vi/blogs/architecture/secure-multi-tenant-rag-with-amazon-bedrock-and-verified-permissions/
+
+![Blog2](/images/3-Blog/blog2-1.jpg)
+![Blog2](/images/3-Blog/blog2-2.jpg)
+![Blog2](/images/3-Blog/blog2-3.jpg)

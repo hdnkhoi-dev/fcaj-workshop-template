@@ -35,10 +35,14 @@ During my internship, I participated in two events. Each one was a memorable exp
 ---
 
 ### [Event 2](4.2-Event2/)  
-&emsp;**Event Name:** GenAI-powered App-DB Modernization workshop  
+&emsp;**Event Name:** FCAJ Community Day - Data Driven, AI Risen  
 
-&emsp;**Date & Time:** 09:00, August 13, 2025  
+&emsp;**Date & Time:** 09:00 - 12:00, June 27, 2026  
 
-&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City  
+&emsp;**Location:** 26th & 36th Floor, Bitexco Financial Tower, 2 Hai Trieu, Ben Nghe Ward, District 1, Ho Chi Minh City  
 
 &emsp;**Role:** Attendee  
+
+&emsp;**Description:** A technology community event focused on AI-driven automation (Deep Response Engine for incident response), scalable voice agents with Amazon Nova, AWS DevOps Agent, AI-powered workforce planning, and secure private MCP connections with Amazon Quick.  
+
+&emsp;**Outcomes:** Mastered autonomous incident response patterns, explored Amazon Nova for voice AI, learned how to use AWS DevOps Agent to reduce operational times, understood AI for workforce planning, and built skills in secure MCP integration for enterprise AI tools.

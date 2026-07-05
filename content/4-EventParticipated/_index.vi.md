@@ -18,7 +18,7 @@ pre: " <b> 4. </b> "
 > * Việc liệt kê này giúp thể hiện rõ sự tham gia thực tế của bạn, cũng như các kỹ năng mềm và kinh nghiệm bạn đã tích lũy qua từng sự kiện.
 
 
-Trong quá trình thực tập, em đã tham gia 2 events, với mỗi event là một trải nghiệm đáng nhớ với những kiến thức mới, hay và bổ ích, cùng với đó là nhứng món quà và những khoảnh khắc rất tuyệt vời.
+Trong quá trình thực tập, em đã tham gia 2 events, với mỗi event là một trải nghiệm đáng nhớ với những kiến thức mới, hay và bổ ích, cùng với đó là những món quà và những khoảnh khắc rất tuyệt vời.
 
 ### [Event 1](4.1-Event1/)  
 &emsp;**Tên sự kiện:** FCAJ Community Day - Hành trình đám mây AI đầu tiên cùng AWS  
@@ -29,18 +29,20 @@ Trong quá trình thực tập, em đã tham gia 2 events, với mỗi event là
 
 &emsp;**Vai trò trong sự kiện:** Người tham dự  
 
-&emsp;**Description:** Sự kiện công nghệ cộng đồng tập trung vào các ứng dụng GenAI, các bước đột phá trong kỹ nghệ LLM (hệ thống Multi-Agent, quản lý ngữ cảnh câu lệnh), tối ưu hóa hạ tầng đám mây (Amazon CloudFront) và quy trình phát triển sản phẩm khả dụng tối thiểu (MVP) thực tế từ các cuộc thi hackathon.
+&emsp;**Mô tả:** Sự kiện công nghệ cộng đồng tập trung vào các ứng dụng GenAI, các bước đột phá trong kỹ nghệ LLM (hệ thống Multi-Agent, quản lý ngữ cảnh câu lệnh), tối ưu hóa hạ tầng đám mây (Amazon CloudFront) và quy trình phát triển sản phẩm khả dụng tối thiểu (MVP) thực tế từ các cuộc thi hackathon.
 
-&emsp;**Outcomes:** Thu nhận được các góc nhìn thực tế về việc xây dựng "Bộ não AI thứ hai" (Second AI Brain) và các đặc vụ AI cấp doanh nghiệp, nắm vững các giải pháp kỹ thuật để kiểm soát tính bất định của LLM, đồng thời học hỏi các mô hình chuẩn nhất để tối ưu chi phí và bảo mật cho điện toán biên (Edge Computing).
-
+&emsp;**Kết quả đạt được:** Thu nhận được các góc nhìn thực tế về việc xây dựng "Bộ não AI thứ hai" (Second AI Brain) và các đặc vụ AI cấp doanh nghiệp, nắm vững các giải pháp kỹ thuật để kiểm soát tính bất định của LLM, đồng thời học hỏi các mô hình chuẩn nhất để tối ưu chi phí và bảo mật cho điện toán biên (Edge Computing).
 
 
 ### [Event 2](4.2-Event2/)
-&emsp;**Tên sự kiện:** GenAI-powered App-DB Modernization workshop
+&emsp;**Tên sự kiện:** FCAJ Community Day - Data Driven, AI Risen
 
-&emsp;**Thời gian:** 09:00 ngày 13/08/2025
+&emsp;**Thời gian:** 09:00 - 12:00, Ngày 27 tháng 6 năm 2026
 
-&emsp;**Địa điểm:** Tầng 26, tòa nhà Bitexco, số 02 đường Hải Triều, phường Sài Gòn, thành phố Hồ Chí Minh
+&emsp;**Địa điểm:** Tầng 26 & 36, Tòa nhà tài chính Bitexco, số 2 Hải Triều, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh
 
-&emsp;**Vai trò trong sự kiện:** Người tham dự 
+&emsp;**Vai trò trong sự kiện:** Người tham dự
 
+&emsp;**Mô tả:** Sự kiện công nghệ cộng đồng tập trung vào tự động hóa dựa trên AI (Deep Response Engine cho phản hồi sự cố), trợ lý thoại có khả năng mở rộng với Amazon Nova, AWS DevOps Agent, hoạch định nhân lực dựa trên AI, và kết nối MCP riêng tư, an toàn với Amazon Quick.
+
+&emsp;**Kết quả đạt được:** Làm chủ các mẫu phản hồi sự cố tự động, khám phá Amazon Nova cho voice AI, học cách sử dụng AWS DevOps Agent để giảm thời gian vận hành, hiểu AI cho hoạch định nhân lực và xây dựng kỹ năng tích hợp MCP an toàn cho các công cụ AI doanh nghiệp.

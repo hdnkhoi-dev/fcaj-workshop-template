@@ -1,52 +1,142 @@
 ---
 title: "Week 10 Worklog"
-date: 2024-01-01
+date: 2026-06-22
 weight: 10
 chapter: false
 pre: " <b> 1.10. </b> "
 ---
 ### Week 10 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Build foundation infrastructure: VPC, Subnets, IGW, NAT Gateway, Security Groups.
+* Prepare IAM Roles and S3 Buckets (Artifact + Backup) with minimum security.
+* Set up ECR Repositories, ECS Cluster and ALB (Internet-Facing + Internal).
+* Deploy RDS Single-AZ and complete CI/CD Pipeline (Source → Build).
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+<table>
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Task</th>
+      <th>Start Date</th>
+      <th>Completion Date</th>
+      <th>Reference Material</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>
+        <ul>
+          <li>
+            Networking: VPC, Subnet, IGW, NAT, Security Groups
+            <ul>
+              <li>Create VPC: CIDR 10.0.0.0/16, name globalmart-vpc</li>
+              <li>Create 3 Subnets: Public Subnet A (10.0.1.0/24, ap-southeast-1a), Private Subnet A (10.0.2.0/24, ap-southeast-1a), Private Subnet B (10.0.3.0/24, ap-southeast-1b)</li>
+              <li>Create IGW and attach to VPC, Public Route Table route 0.0.0.0/0 → IGW, associate with Public Subnet A</li>
+              <li>Create NAT Gateway in Public Subnet A, attach Elastic IP, Private Route Table route 0.0.0.0/0 → NAT Gateway, associate with Private Subnet A & B</li>
+              <li>Create Security Groups as per table: sg-alb-public, sg-alb-internal, sg-ecs-tasks, sg-rds, sg-vpclink</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>22/06/2026</td>
+      <td>22/06/2026</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>
+        <ul>
+         <li>
+            IAM Roles & S3 Buckets
+            <ul>
+              <li>Create S3 Buckets: globalmart-artifact-bucket-<suffix>, globalmart-backup-bucket-<suffix>, enable Versioning + SSE, Block Public Access ON</li>
+              <li>Create IAM Roles: globalmart-codebuild-role, globalmart-codepipeline-role, globalmart-codedeploy-role, globalmart-ecs-task-execution-role, globalmart-ecs-task-role</li>
+              <li>Store DB credentials in AWS Secrets Manager</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>23/06/2026</td>
+      <td>23/06/2026</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>
+        <ul>
+           <li>
+            ECR & ECS Cluster
+            <ul>
+              <li>Create 2 ECR Repositories: globalmart-frontend, globalmart-backend, enable Image scanning on push, Lifecycle Policy keep 10 images</li>
+              <li>Create Fargate ECS Cluster: globalmart-ecs-cluster</li>
+              <li>Write Task Definition JSON for Frontend and Backend</li>
+              <li>Create CloudWatch Log Groups: /ecs/globalmart-frontend, /ecs/globalmart-backend</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>24/06/2026</td>
+      <td>24/06/2026</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>
+        <ul>
+          <li>
+            Application Load Balancer (Internet-Facing + Internal)
+            <ul>
+              <li>Create Internet-Facing ALB: globalmart-alb-public, scheme internet-facing, SG sg-alb-public, listener 80 redirect → 443, Target Group tg-frontend</li>
+              <li>Create Internal ALB: globalmart-alb-internal, scheme internal, SG sg-alb-internal, Target Group tg-backend</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>25/06/2026</td>
+      <td>25/06/2026</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>
+        <ul>
+          <li>
+            RDS Single-AZ & CI/CD Pipeline
+            <ul>
+              <li>Create DB Subnet Group including Private Subnet B, create RDS MySQL Single-AZ (db.t3.medium), SG sg-rds, enable Automated Backups 7 days</li>
+              <li>Connect GitHub via CodeStar Connection, write buildspec.yml for Frontend and Backend</li>
+              <li>Create CodeBuild Project (Privileged mode ON) and CodePipeline 2 stages (Source → Build)</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>26/06/2026</td>
+      <td>26/06/2026</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
 
-### Week 10 Achievements:
+### WEEK 10 ACHIEVEMENTS: FOUNDATION INFRASTRUCTURE & CI/CD
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+1. **Networking & Security Groups**
+   - **VPC & Subnets**: Successfully created VPC 10.0.0.0/16, 3 Subnets (Public A, Private A, Private B) across 2 AZ.
+   - **Routing**: Configured IGW, NAT Gateway, Route Tables as designed, tested NAT working via temporary EC2.
+   - **Security Groups**: Created 5 SGs as per table, ensuring least privilege for each resource.
 
-* Successfully created and configured an AWS Free Tier account.
+2. **IAM Roles & S3 Buckets**
+   - **S3 Buckets**: Created artifact and backup buckets with Versioning, SSE, Block Public Access.
+   - **IAM Roles**: Created 5 roles with correct trust policy and minimum permissions.
+   - **Secrets Manager**: Stored DB credentials securely, no hardcoding.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+3. **ECR, ECS & ALB**
+   - **ECR Repositories**: 2 repos with scan on push and lifecycle policy.
+   - **ECS Cluster**: Fargate cluster successfully created, registered 2 ACTIVE task definitions.
+   - **ALB**: 2 ALBs (public + internal) in Active state, Target Groups unhealthy (waiting for tasks).
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+4. **RDS & CI/CD Pipeline**
+   - **RDS**: Single-AZ instance Available, successfully connected from private subnet.
+   - **Pipeline**: CodePipeline runs green Source → Build, pushes image to ECR on every code push.

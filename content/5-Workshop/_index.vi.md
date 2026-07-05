@@ -6,23 +6,29 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Đảm bảo truy cập Hybrid an toàn đến S3 bằng cách sử dụng VPC endpoint
+# Workshop triển khai hạ tầng GlobalMart trên AWS
 
 #### Tổng quan
 
-**AWS PrivateLink** cung cấp kết nối riêng tư đến các dịch vụ aws từ VPCs hoặc trung tâm dữ liệu (on-premise) mà không làm lộ lưu lượng truy cập ra ngoài public internet.
+Phần này được dùng như bộ khung hướng dẫn triển khai cho dự án **GlobalMart** dựa trên sơ đồ kiến trúc và nội dung trong phần `Proposal`. Trọng tâm của workshop là xây dựng hạ tầng DevOps/Platform Engineering theo hướng production-ready, bao gồm luồng CI/CD, lớp mạng Multi-AZ, runtime ECS, tầng dữ liệu an toàn, giám sát tập trung và cơ chế sao lưu - cảnh báo.
 
-Trong bài lab này, chúng ta sẽ học cách tạo, cấu hình, và kiểm tra VPC endpoints để cho phép workload của bạn tiếp cận các dịch vụ AWS mà không cần đi qua Internet công cộng.
+Trong mỗi mục, tôi đã tạo sẵn khuôn nội dung theo dự án của bạn để bạn có thể tự bổ sung hình ảnh, thông số thực tế và kết quả triển khai sau này.
 
-Chúng ta sẽ tạo hai loại endpoints để truy cập đến Amazon S3: gateway vpc endpoint và interface vpc endpoint. Hai loại vpc endpoints này mang đến nhiều lợi ích tùy thuộc vào việc bạn truy cập đến S3 từ môi trường cloud hay từ trung tâm dữ liệu (on-premise).
-+ **Gateway** - Tạo gateway endpoint để gửi lưu lượng đến Amazon S3 hoặc DynamoDB using private IP addresses. Bạn điều hướng lưu lượng từ VPC của bạn đến gateway endpoint bằng các bảng định tuyến (route tables)
-+ **Interface** - Tạo interface endpoint để gửi lưu lượng đến các dịch vụ điểm cuối (endpoints) sử dụng Network Load Balancer để phân phối lưu lượng. Lưu lượng dành cho dịch vụ điểm cuối được resolved bằng DNS.
+#### Phạm vi workshop
+
+- Chuẩn bị source code, IAM role, ECR và artifact bucket.
+- Thiết lập GitHub Actions, ECR và luồng cập nhật ECS để tự động hóa CI/CD.
+- Xây dựng VPC Multi-AZ, NAT Gateway, route table và security groups.
+- Triển khai ECS Fargate cho frontend/backend, Public ALB, Internal ALB, API Gateway và VPC Link.
+- Cấu hình RDS MySQL Multi-AZ, Secrets Manager và RDS Proxy.
+- Thiết lập CloudWatch Logs, metrics, alarms, SNS và backup.
+- Tạo khung kiểm thử, rà soát bảo mật và dọn dẹp tài nguyên.
 
 #### Nội dung
 
 1. [Tổng quan về workshop](5.1-Workshop-overview/)
-2. [Chuẩn bị](5.2-Prerequiste/)
-3. [Truy cập đến S3 từ VPC](5.3-S3-vpc/)
-4. [Truy cập đến S3 từ TTDL On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (làm thêm)](5.5-Policy/)
-6. [Dọn dẹp tài nguyên](5.6-Cleanup/)
+2. [Thiết lập dịch vụ AWS](5.2-Prerequiste/)
+3. [Thiết lập source, IAM OIDC và GitHub Actions CI/CD](5.3-Build-Deploy/)
+4. [Bảo mật, tối ưu và kiểm tra mở rộng](5.4-Policy/)
+5. [Dọn dẹp tài nguyên](5.5-Cleanup/)
+6. [Kết quả thực tế](5.6-Results/)

@@ -1,54 +1,146 @@
 ---
 title: "Worklog Tuần 12"
-date: 2024-01-01
-weight: 2
+date: 2026-07-02
+weight: 12
 chapter: false
-pre: " <b> 1.12 </b> "
+pre: " <b> 1.12. </b> "
 ---
-### Mục tiêu tuần 12:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Mục tiêu Tuần 12
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+* Hoàn thiện Workshop triển khai hệ thống GlobalMart trên AWS.
+* Viết và bổ sung đầy đủ nội dung báo cáo thực tập.
+* Kiểm tra lại toàn bộ quy trình triển khai, hình ảnh minh họa và kết quả thực tế.
+* Hoàn thiện tài liệu hướng dẫn để người khác có thể triển khai lại hệ thống.
 
+### Công việc thực hiện trong tuần
 
-### Kết quả đạt được tuần 12:
+<table>
+  <thead>
+    <tr>
+      <th>Ngày</th>
+      <th>Công việc</th>
+      <th>Ngày bắt đầu</th>
+      <th>Ngày hoàn thành</th>
+      <th>Tài liệu tham khảo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>
+        <ul>
+          <li>
+            Hoàn thiện Workshop AWS
+            <ul>
+              <li>Rà soát toàn bộ nội dung các chương.</li>
+              <li>Chuẩn hóa bố cục, tiêu đề và định dạng Markdown.</li>
+              <li>Bổ sung hình ảnh minh họa cho từng bước triển khai.</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>02/07/2026</td>
+      <td>02/07/2026</td>
+      <td></td>
+    </tr>
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+    <tr>
+      <td>3</td>
+      <td>
+        <ul>
+          <li>
+            Kiểm thử Workshop
+            <ul>
+              <li>Kiểm tra lại toàn bộ các bước triển khai.</li>
+              <li>Đảm bảo hình ảnh và nội dung hướng dẫn khớp với thực tế.</li>
+              <li>Chỉnh sửa các lỗi trình bày và nội dung.</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>03/07/2026</td>
+      <td>03/07/2026</td>
+      <td></td>
+    </tr>
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+    <tr>
+      <td>4</td>
+      <td>
+        <ul>
+          <li>
+            Viết báo cáo thực tập
+            <ul>
+              <li>Hoàn thiện phần giới thiệu, mục tiêu và kiến trúc hệ thống.</li>
+              <li>Bổ sung hình ảnh triển khai thực tế.</li>
+              <li>Mô tả quy trình CI/CD và kết quả đạt được.</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>04/07/2026</td>
+      <td>04/07/2026</td>
+      <td></td>
+    </tr>
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+    <tr>
+      <td>5</td>
+      <td>
+        <ul>
+          <li>
+            Hoàn thiện báo cáo
+            <ul>
+              <li>Rà soát nội dung toàn bộ báo cáo.</li>
+              <li>Kiểm tra hình ảnh, bảng biểu và tài liệu tham khảo.</li>
+              <li>Chuẩn hóa định dạng theo yêu cầu.</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>05/07/2026</td>
+      <td>05/07/2026</td>
+      <td></td>
+    </tr>
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+    <tr>
+      <td>6</td>
+      <td>
+        <ul>
+          <li>
+            Tổng kết thực tập
+            <ul>
+              <li>Kiểm tra lại Workshop lần cuối.</li>
+              <li>Hoàn thiện báo cáo thực tập.</li>
+              <li>Chuẩn bị tài liệu nộp và trình bày kết quả.</li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+      <td>06/07/2026</td>
+      <td>06/07/2026</td>
+      <td></td>
+    </tr>
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+  </tbody>
+</table>
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
+### KẾT QUẢ TUẦN 12: HOÀN THIỆN WORKSHOP VÀ BÁO CÁO THỰC TẬP
 
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+1. **Hoàn thiện Workshop AWS**
+   - Hoàn thành toàn bộ nội dung Workshop.
+   - Bổ sung đầy đủ hình ảnh minh họa cho từng bước triển khai.
+   - Chuẩn hóa bố cục và định dạng tài liệu.
 
+2. **Kiểm thử nội dung**
+   - Kiểm tra lại toàn bộ quy trình triển khai.
+   - Đảm bảo các bước thực hiện có thể tái hiện thành công.
+   - Cập nhật và chỉnh sửa các lỗi còn tồn tại.
 
+3. **Hoàn thành báo cáo thực tập**
+   - Hoàn thiện toàn bộ nội dung báo cáo.
+   - Mô tả đầy đủ kiến trúc hệ thống, quy trình triển khai và kết quả đạt được.
+   - Bổ sung hình ảnh minh họa và tài liệu tham khảo.
+
+4. **Chuẩn bị nghiệm thu**
+   - Hoàn thiện tài liệu để phục vụ báo cáo và bàn giao.
+   - Sẵn sàng trình bày Workshop và kết quả thực tập.
