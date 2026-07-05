@@ -6,31 +6,28 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-**Trong trang này** bạn sẽ cần giới thiệu worklog của bạn **như thế nào**? Bạn hoàn thành chương trình trong vòng **bao nhiêu tuần**? Bạn **đã làm gì** trong các tuần đó?
+**Trong trang này**, bạn sẽ tìm thấy nhật ký công việc toàn diện bao gồm chương trình thực tập 3 tháng tập trung vào điện toán đám mây AWS, các phương pháp DevOps và kiến trúc ứng dụng hiện đại. Nhật ký công việc được cấu trúc thành 12 tuần, mỗi tuần có mục tiêu cụ thể, nhiệm vụ thực hành và thành tựu chính.
 
+**Tuần 1:** [Nền tảng AWS & Quản lý chi phí](1.1-week1/)
 
-Thông thường và cũng là tiêu chuẩn, một worklog được thực hiện trong khoảng 3 tháng (trong suốt thời gian thực tập) với nội dung các tuần như sau:
+**Tuần 2:** [Mạng nâng cao & Triển khai hạ tầng](1.2-week2/)
 
-**Tuần 1:** [Làm quen với AWS và các dịch vụ cơ bản trong AWS](1.1-week1/)
+**Tuần 3:** [Triển khai đa nền tảng & Quản lý dữ liệu](1.3-week3/)
 
-**Tuần 2:** [Làm công việc A...](1.2-week2/)
+**Tuần 4:** [Giám sát đám mây, Tự động hóa & Kiến trúc dữ liệu nâng cao](1.4-week4/)
 
-**Tuần 3:** [Làm công việc B...](1.3-week3/)
+**Tuần 5:** [Hiện đại hóa dữ liệu, Kiến trúc Data Lake & NoSQL nâng cao](1.5-week5/)
 
-**Tuần 4:** [Làm công việc C...](1.4-week4/)
+**Tuần 6:** [Workshop Phân tích dữ liệu AWS & Trí tuệ doanh nghiệp](1.6-week6/)
 
-**Tuần 5:** [Làm công việc D...](1.5-week5/)
+**Tuần 7:** [Workshop Triển khai ứng dụng trên Docker](1.7-week7/)
 
-**Tuần 6:** [Làm công việc E...](1.6-week6/)
+**Tuần 8:** [GlobalMart - Thiết kế kiến trúc & Lập kế hoạch dự án](1.8-week8/)
 
-**Tuần 7:** [Làm công việc G...](1.7-week7/)
+**Tuần 9:** [Code website, CI/CD & Terraform](1.9-week9/)
 
-**Tuần 8:** [Làm công việc H...](1.8-week8/)
+**Tuần 10:** [Hạ tầng nền móng & CI/CD](1.10-week10/)
 
-**Tuần 9:** [Làm công việc I...](1.9-week9/)
+**Tuần 11:** [Triển khai, Giám sát & Đưa vào hoạt động](1.11-week11/)
 
-**Tuần 10:** [Làm công việc L...](1.10-week10/)
-
-**Tuần 11:** [Làm công việc M...](1.11-week11/)
-
-**Tuần 12:** [Làm công việc N...](1.12-week12/)
+**Tuần 12:** [Hoàn thành Workshop & Báo cáo thực tập](1.12-week12/)
