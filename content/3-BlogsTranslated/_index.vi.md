@@ -21,3 +21,5 @@ Blog này chia sẻ một bài viết khá thú vị trên AWS Architecture Blog
 
 Bài viết hướng dẫn bạn qua kiến trúc sử dụng Amazon Cognito CUSTOM_AUTH, Vonage Identity Insights, Silent Authentication và Fraud Defender để tạo hệ thống xác thực không cần mật khẩu, dựa trên rủi ro giúp người dùng đăng nhập trong dưới 5 giây mà không cần nhập OTP thủ công, đồng thời giảm đáng kể gian lận và cải thiện trải nghiệm người dùng.
 
+![Blog3](/images/3-Blog/blog3-1.jpg)
+![Blog3](/images/3-Blog/blog3-2.jpg)
