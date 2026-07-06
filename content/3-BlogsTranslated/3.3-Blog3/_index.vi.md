@@ -128,3 +128,5 @@ Thay vì bắt mọi người nhập OTP cho mọi phiên đăng nhập, hệ th
 Đây là một hướng tiếp cận rất đáng tham khảo cho các ứng dụng tài chính, thương mại điện tử và mobile-first platform trên AWS.
 
 Bài viết gốc: https://aws.amazon.com/vi/blogs/architecture/reducing-sms-otp-fraud-with-vonage-network-powered-solutions-and-amazon-cognito/
+![Blog3](/images/3-Blog/blog3-1.jpg)
+![Blog3](/images/3-Blog/blog3-2.jpg)

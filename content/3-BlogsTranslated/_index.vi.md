@@ -20,6 +20,3 @@ Bài viết hướng dẫn bạn qua Ingestion Pipeline theo hướng event-driv
 Blog này chia sẻ một bài viết khá thú vị trên AWS Architecture Blog về cách kết hợp Amazon Cognito với Vonage để giảm gian lận OTP và cải thiện trải nghiệm đăng nhập trên thiết bị di động. Bạn sẽ tìm hiểu về các rủi ro hiện tại của OTP SMS (SIM Swap Attack, SMS Interception, Social Engineering, SMS Pumping Fraud, người dùng nhập sai OTP, OTP không gửi tới thiết bị), lý do vì sao khoảng 20% người dùng bỏ cuộc trong bước xác thực OTP, và cách giải quyết bài toán này bằng cách tiếp cận ba lớp bảo vệ.
 
 Bài viết hướng dẫn bạn qua kiến trúc sử dụng Amazon Cognito CUSTOM_AUTH, Vonage Identity Insights, Silent Authentication và Fraud Defender để tạo hệ thống xác thực không cần mật khẩu, dựa trên rủi ro giúp người dùng đăng nhập trong dưới 5 giây mà không cần nhập OTP thủ công, đồng thời giảm đáng kể gian lận và cải thiện trải nghiệm người dùng.
-
-![Blog3](/images/3-Blog/blog3-1.jpg)
-![Blog3](/images/3-Blog/blog3-2.jpg)

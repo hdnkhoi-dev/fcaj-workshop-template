@@ -20,6 +20,4 @@ The article guides you through an event-driven Ingestion Pipeline (utilizing Ama
 This blog introduces an interesting case study from the AWS Architecture Blog about combining Amazon Cognito with Vonage to reduce OTP fraud and improve mobile login experience. You will learn about the current risks of OTP SMS (SIM Swap Attack, SMS Interception, Social Engineering, SMS Pumping Fraud, user input errors, and undelivered OTPs), why 20% of users drop off during OTP verification, and how to solve this with a multi-layer security approach.
 
 The article guides you through the architecture using Amazon Cognito CUSTOM_AUTH, Vonage Identity Insights, Silent Authentication, and Fraud Defender to create a passwordless, risk-based authentication system that lets users log in in under 5 seconds without manual OTP input, while significantly reducing fraud and improving user experience.
-![Blog3](/images/3-Blog/blog3-1.jpg)
-![Blog3](/images/3-Blog/blog3-2.jpg)
 
